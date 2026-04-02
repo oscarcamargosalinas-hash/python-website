@@ -1,6 +1,9 @@
+# 1. Definición de la Aplicación
 applications:
   app:
-    type: python:3.13
+    type: "python:3.12" # Asegúrate de que 3.13 ya esté soportado en tu región de Upsun
+    source:
+      root: "/"
 
     relationships:
       database: "db:postgresql"
@@ -9,6 +12,19 @@ applications:
       'static':
         source: local
         source_path: static
+
+    web:
+      upstream:
+        socket_family: unix
+      commands:
+        start: gunicorn -w 4 -b unix:$SOCKET blog.wsgi:application
+      locations:
+        "/":
+          passthru: true
+        "/static":
+          root: "static"
+          expires: 1h
+          allow: true
 
     hooks:
       build: |
@@ -20,26 +36,12 @@ applications:
         set -ex
         python manage.py migrate
 
-    web:
-      upstream:
-        socket_family: unix
-      commands:
-        # Usando el nombre real de tu proyecto que vimos en settings.py
-        start: gunicorn -w 4 -b unix:$SOCKET blog.wsgi:application
-      
-      locations:
-        "/":
-          passthru: true
-        "/static":
-          root: "static"
-          expires: 1h
-          allow: true
-
+# 2. Definición de Servicios
 services:
   db:
     type: postgresql:15
-    # ELIMINADO: La línea 'disk: 1024' ya no va aquí en Upsun.
 
+# 3. Definición de Rutas
 routes:
   "https://{default}/":
     type: upstream
