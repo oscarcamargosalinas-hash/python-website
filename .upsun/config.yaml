@@ -24,7 +24,7 @@ applications:
       upstream:
         socket_family: unix
       commands:
-        start: gunicorn -w 4 -b unix:$SOCKET blog.wsgi:application
+        start: gunicorn -w 4 -b unix:$SOCKET blog.blog.wsgi:application
       
       locations:
         "/":
