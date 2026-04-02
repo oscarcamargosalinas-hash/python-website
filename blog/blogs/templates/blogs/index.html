@@ -1,0 +1,20 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border text-center">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold text-primary">Blogs</h1>
+      <p class="fs-4 text-muted">
+        This is the home page for the blogs. Explore the latest stories and thoughts.
+      </p>
+      <hr class="my-4" style="max-width: 100px; margin: auto; border-top: 3px solid #0d6efd;">
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="{% url 'blogs:new_title' %}" class="btn btn-primary btn-lg px-4 gap-3">
+          Create New Post
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

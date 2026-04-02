@@ -1,0 +1,70 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'blogs:note' title.id %}" class="text-decoration-none">
+                            &larr; Back to {{ title }}
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white p-3">
+                    <h5 class="mb-0">Edit Note</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form action="{% url 'blogs:edit_notes' note.id %}" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4 custom-form-group">
+                            {{ form.as_div }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button name="submit" class="btn btn-primary btn-lg">
+                                Save Changes
+                            </button>
+                            <a href="{% url 'blogs:note' title.id %}" class="btn btn-outline-secondary">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-form-group input, 
+    .custom-form-group textarea {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+    
+    .custom-form-group input:focus, 
+    .custom-form-group textarea:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+</style>
+{% endblock content %}

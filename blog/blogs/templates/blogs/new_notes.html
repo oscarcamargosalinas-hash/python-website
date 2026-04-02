@@ -1,0 +1,86 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'blogs:note' title.id %}" class="text-decoration-none text-muted">
+                            &larr; Volver a <strong>{{ title }}</strong>
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="card shadow border-0 rounded-4">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h4 class="card-title mb-0 fw-bold text-primary">Nueva Entrada</h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    {% if form.errors %}
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div>Por favor, corrige los errores marcados abajo.</div>
+                        </div>
+                    {% endif %}
+
+                    <form action="{% url 'blogs:new_notes' title.id %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-4 form-custom-style">
+                            {{ form.as_div }}
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'blogs:note' title.id %}" class="btn btn-light px-4">Cancelar</a>
+                            <button class="btn btn-primary px-5 shadow-sm" type="submit">
+                                Guardar Nota
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilizamos los inputs de Django para que sean largos y modernos */
+    .form-custom-style input, 
+    .form-custom-style textarea {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-custom-style input:focus, 
+    .form-custom-style textarea:focus {
+        border-color: #0d6efd;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+
+    /* Ajuste de espaciado para las etiquetas (labels) */
+    .form-custom-style label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+
+    .form-custom-style div {
+        margin-bottom: 1.25rem;
+    }
+</style>
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 90vh; background-color: #f8f9fa;">
+  
+  <div class="card shadow-sm p-4" style="width: 350px; border-radius: 12px;">
+    
+    <h3 class="text-center mb-4">Create Account</h3>
+
+    {% if form.errors %}
+      <div class="alert alert-danger text-center">
+        Please fix the errors below
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'accounts:register' %}">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <input name="username" class="form-control" placeholder="Username">
+      </div>
+
+      <div class="mb-3">
+        <input name="password1" type="password" class="form-control" placeholder="Password">
+      </div>
+
+      <div class="mb-3">
+        <input name="password2" type="password" class="form-control" placeholder="Confirm Password">
+      </div>
+
+      <button class="btn btn-primary w-100 mb-3" type="submit">Register</button>
+
+    </form>
+
+    <p class="text-center text-muted small mb-0">
+      Already have an account?
+      <a href="{% url 'accounts:login' %}">Login</a>
+    </p>
+
+  </div>
+
+</div>
+
+{% endblock content %}
