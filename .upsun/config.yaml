@@ -1,7 +1,7 @@
 applications:
   app:
     source:
-      root: "blog"
+      root: "Blog"
     type: python:3.13
 
     relationships:
