@@ -25,7 +25,7 @@ applications:
         socket_family: unix
       commands:
         # Usando el nombre real de tu proyecto que vimos en settings.py
-        start: gunicorn -w 4 -b unix:$SOCKET blogs.wsgi:application
+        start: gunicorn -w 4 -b unix:$SOCKET blog.wsgi:application
       
       locations:
         "/":
