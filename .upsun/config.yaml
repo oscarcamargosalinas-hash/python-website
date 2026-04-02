@@ -1,0 +1,50 @@
+applications:
+  app:
+    type: python:3.13
+
+    relationships:
+      database: "db:postgresql"
+
+    mounts:
+      'static':
+        source: local
+        source_path: static
+
+    hooks:
+      build: |
+        set -ex
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        python manage.py collectstatic --noinput
+      deploy: |
+        set -ex
+        python manage.py migrate
+
+    web:
+      upstream:
+        socket_family: unix
+      commands:
+        # Usando el nombre real de tu proyecto que vimos en settings.py
+        start: gunicorn -w 4 -b unix:$SOCKET blogs.wsgi:application
+      
+      locations:
+        "/":
+          passthru: true
+        "/static":
+          root: "static"
+          expires: 1h
+          allow: true
+
+services:
+  db:
+    type: postgresql:15
+    # ELIMINADO: La línea 'disk: 1024' ya no va aquí en Upsun.
+
+routes:
+  "https://{default}/":
+    type: upstream
+    upstream: "app:http"
+
+  "https://www.{default}/":
+    type: redirect
+    to: "https://{default}/"
