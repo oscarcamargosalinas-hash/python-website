@@ -1,5 +1,7 @@
 applications:
   app:
+    source:
+      root: "blog"
     type: python:3.13
 
     relationships:
@@ -15,10 +17,10 @@ applications:
         set -ex
         pip install --upgrade pip
         pip install -r requirements.txt
-        python manage.py collectstatic --noinput
+        python blog/manage.py collectstatic --noinput
       deploy: |
         set -ex
-        python manage.py migrate
+        python blog/manage.py migrate
 
     web:
       upstream:
