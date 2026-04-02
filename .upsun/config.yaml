@@ -1,7 +1,5 @@
 applications:
   app:
-    source:
-      root: "."
     type: python:3.13
 
     relationships:
